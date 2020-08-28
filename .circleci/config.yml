@@ -14,18 +14,7 @@ jobs:
       - restore_cache:
           keys:
           - cache-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
-
-      - run:
-          name: Install Git LFS
-          command: |
-            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-            sudo apt-get install git-lfs
-            git lfs install
-
-      - run:
-          name: Pull LFS Files
-          command: git lfs pull
-
+          
       - run:
           name: Install Shellcheck
           command: |
