@@ -9,7 +9,7 @@ import os
 # Hide lines below until Lab 3
 import wandb
 
-from training.gpu_manager import GPUManager
+# from training.gpu_manager import GPUManager
 
 # Hide lines above until Lab 3
 from training.util import train_model
@@ -100,28 +100,47 @@ def run_experiment(experiment_config: Dict, save_weights: bool, gpu_ind: int, us
         model.save_weights()
 
 
+# def _parse_args():
+#     """Parse command-line arguments."""
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("--gpu", type=int, default=0, help="Provide index of GPU to use.")
+#     parser.add_argument(
+#         "--save",
+#         default=False,
+#         dest="save",
+#         action="store_true",
+#         help="If true, then final weights will be saved to canonical, version-controlled location",
+#     )
+#     parser.add_argument(
+#         "experiment_config",
+#         type=str,
+#         help='Experimenet JSON (\'{"dataset": "EmnistDataset", "model": "CharacterModel", "network": "mlp"}\'',
+#     )
+#     parser.add_argument(
+#         "--nowandb", default=False, action="store_true", help="If true, do not use wandb for this run",
+#     )
+#     args = parser.parse_args()
+#     return args
+
+'{"dataset": "EmnistLinesDataset", "model": "LineModelCtc", "network": "line_lstm_ctc"}'
 def _parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--gpu", type=int, default=0, help="Provide index of GPU to use.")
     parser.add_argument(
         "--save",
-        default=False,
-        dest="save",
-        action="store_true",
-        help="If true, then final weights will be saved to canonical, version-controlled location",
+        default=True
     )
     parser.add_argument(
-        "experiment_config",
+        "--experiment_config",
         type=str,
-        help='Experimenet JSON (\'{"dataset": "EmnistDataset", "model": "CharacterModel", "network": "mlp"}\'',
+        default='{"dataset": "EmnistLinesDataset", "model": "LineModelCtc", "network": "line_lstm_ctc"}'
     )
     parser.add_argument(
         "--nowandb", default=False, action="store_true", help="If true, do not use wandb for this run",
     )
     args = parser.parse_args()
     return args
-
 
 def main():
     """Run experiment."""

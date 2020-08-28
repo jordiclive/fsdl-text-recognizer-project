@@ -4,8 +4,7 @@ from pathlib import Path
 import unittest
 from text_recognizer.paragraph_text_recognizer import ParagraphTextRecognizer
 import text_recognizer.util as util
-
-
+import pytest
 SUPPORT_DIRNAME = Path(__file__).parents[0].resolve() / "support" / "iam_paragraphs"
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
@@ -22,3 +21,6 @@ class TestParagraphTextRecognizer(unittest.TestCase):
             predicted_text, line_region_crops = predictor.predict(full_image)
             print(predicted_text)
             assert len(line_region_crops) == num_text_lines_by_name[filename.stem]
+
+if __name__ == '__main__':
+    pytest.main()

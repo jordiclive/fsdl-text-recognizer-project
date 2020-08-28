@@ -16,7 +16,7 @@ from training.util import train_model
 
 DEFAULT_TRAIN_ARGS = {"batch_size": 64, "epochs": 16}
 
-
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 def run_experiment(experiment_config: Dict, save_weights: bool, gpu_ind: int, use_wandb: bool = True):
     """
     Run a training experiment.
@@ -112,7 +112,7 @@ def _parse_args():
         help="If true, then final weights will be saved to canonical, version-controlled location",
     )
     parser.add_argument(
-        "experiment_config",
+        "--experiment_config",
         type=str,
         help='Experimenet JSON (\'{"dataset": "EmnistDataset", "model": "CharacterModel", "network": "mlp"}\'',
     )
@@ -127,13 +127,18 @@ def main():
     """Run experiment."""
     args = _parse_args()
     # Hide lines below until Lab 3
+    args.gpu = -1
     if args.gpu < 0:
         gpu_manager = GPUManager()
         args.gpu = gpu_manager.get_free_gpu()  # Blocks until one is available
     # Hide lines above until Lab 3
 
-    experiment_config = json.loads(args.experiment_config)
+    #experiment_config = json.loads(args.experiment_config)
     os.environ["CUDA_VISIBLE_DEVICES"] = f"{args.gpu}"
+
+    experiment_config = {"dataset": "EmnistDataset", "model": "CharacterModel", "network": "lenet", "train_args": {"batch_size": 256}, "experiment_group": "Sample Experiments 2"}
+    args.save=True
+    args.nowandb=False
     run_experiment(experiment_config, args.save, args.gpu, use_wandb=not args.nowandb)
 
 
